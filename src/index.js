@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import AppHeader from "./components/app-header";
 
 const App = () => {
   return (
-    <h1>Todo List</h1>
+    <AppHeader/>
   )
 };
 
