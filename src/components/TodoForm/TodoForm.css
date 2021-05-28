@@ -1,0 +1,9 @@
+.todo-input{
+    padding: 5px;
+    width: 360px;
+    font-size: 14px;
+    padding-left: 10px;
+}
+.btn-add{
+    background-color: #98FB98;
+}
