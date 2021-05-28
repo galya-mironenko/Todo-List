@@ -1,11 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import AppHeader from "./components/app-header";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
 
-const App = () => {
-  return (
-    <AppHeader/>
-  )
-};
-
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
