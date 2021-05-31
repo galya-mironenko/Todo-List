@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TodoForm from '../TodoForm/TodoForm';
 import TodoList from '../TodoList/TodoList';
 import './TodoApp.css';
-
 export default class TodoApp extends Component{
   idItem = 1;
   constructor(props){
@@ -67,7 +66,7 @@ export default class TodoApp extends Component{
     return (
       <div>
         <TodoForm
-            className="todoApp"
+          className="todoApp"
           item={this.state.item}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
@@ -82,3 +81,4 @@ export default class TodoApp extends Component{
     )
   }
 }
+

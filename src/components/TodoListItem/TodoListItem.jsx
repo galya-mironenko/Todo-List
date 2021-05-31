@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
 import './TodoListItem.css';
+import PropTypes from 'prop-types';
 
 export default class TodoListItem extends Component{
   render(){
@@ -15,3 +16,8 @@ export default class TodoListItem extends Component{
    )
  }
 }
+
+TodoListItem.propTypes = {
+  title: PropTypes.string,
+  handleDeleteItem: PropTypes.func.isRequired
+};

@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
 import './TodoForm.css';
+import PropTypes from 'prop-types';
 
 export default class TodoForm extends Component{
   render(){
@@ -20,3 +21,9 @@ export default class TodoForm extends Component{
     )
   }
 }
+
+TodoForm.propTypes = {
+  item: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired
+};
