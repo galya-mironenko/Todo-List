@@ -1,0 +1,12 @@
+{
+  "posts": [
+    {
+      "id": "3b433b30-c47d-11eb-a96c-6d546e93bdfd",
+      "title": "React"
+    },
+    {
+      "id": "3f0c0300-c47d-11eb-a96c-6d546e93bdfd",
+      "title": "Json Server"
+    }
+  ]
+}

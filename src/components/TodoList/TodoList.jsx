@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export default class TodoList extends Component{
   render(){
-    const {items, handleDeleteItem, handleClearList} = this.props;
+    const {items, handleDeleteItem, handleImportantItem, handleClearList} = this.props;
     return (
       <ul>
         {items && items.map(item => {
@@ -14,11 +14,12 @@ export default class TodoList extends Component{
               key={item.id}
               title={item.title}
               handleDeleteItem={()=> handleDeleteItem(item.id)}
+              handleImportantItem={()=>handleImportantItem}
             />
           );
         })
         }
-        <button className="btn-clear" onClick={handleClearList}>Clear TodoList</button>
+        <button className="btn-clear" onClick={() => handleClearList(items)}>Clear TodoList</button>
       </ul>
     );
   }
