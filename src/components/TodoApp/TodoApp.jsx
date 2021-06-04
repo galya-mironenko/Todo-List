@@ -19,16 +19,15 @@ export default class TodoApp extends Component{
     this.handleClearList = this.handleClearList.bind(this);
   }
 
-  componentDidMount(){
-    let url = "http://localhost:3000/posts";
-    fetch(url)
-      .then(resp => resp.json())
-      .then((data) => {
-        this.setState({items: data})
-      })
-    .catch((err) => {
-      console.log('Could not fetch', err)
-    })
+  async componentDidMount(){
+    try{
+      const res = await fetch('http://localhost:3000/posts');
+      const data = await res.json();
+      this.setState({items: data});
+    }
+    catch(error){
+      return console.log('Could not fetch', error);
+    }
    }
 
   handleChange(e){
@@ -38,7 +37,7 @@ export default class TodoApp extends Component{
     });
   }
 
-  handleSubmit(e){
+  async handleSubmit(e){
     e.preventDefault();
     const newItem = {
       id: this.state.id,
@@ -48,9 +47,14 @@ export default class TodoApp extends Component{
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(newItem)
-    };
-    let url = "http://localhost:3000/posts";
-    fetch(url, requestOptions);
+    }
+
+    try{
+      await fetch('http://localhost:3000/posts', requestOptions);
+    }
+    catch(error){
+        return console.log('Could not fetch', error);
+    }
 
     const updateItem = [...this.state.items, newItem];
     this.setState({
@@ -65,9 +69,14 @@ export default class TodoApp extends Component{
 //     this.setState({important: true});
 //   }
 
-  handleDeleteItem(id){
-    let url = "http://localhost:3000/posts/" + id;
-    fetch(url, {method: 'DELETE'});
+  async handleDeleteItem(id){
+    let url = `http://localhost:3000/posts/${id}`;
+    try{
+      await fetch(url, {method: 'DELETE'});
+    }
+    catch(error){
+      return console.log('You have error, you cant delete item', error);
+    }
 
     this.setState(({items}) => {
       const idx = items.findIndex((el) => el.id === id);
@@ -81,11 +90,16 @@ export default class TodoApp extends Component{
     })
   }
 
-  handleClearList(ids){
-    ids.forEach(element => {
-      let url = "http://localhost:3000/posts/" + element.id;
-      fetch(url, {method: 'DELETE'});
-    });
+  async handleClearList(ids){
+    try{
+      ids.forEach(element => {
+        let url = `http://localhost:3000/posts/${element.id}`;
+        fetch(url, {method: 'DELETE'});
+      });
+    }
+    catch(error){
+      return console.log('You have error, you cant delete item', error);
+    }
 
     this.setState({
       items: []
