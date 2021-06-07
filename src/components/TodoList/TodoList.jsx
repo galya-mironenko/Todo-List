@@ -14,8 +14,8 @@ export default class TodoList extends Component{
               key={item.id}
               title={item.title}
               handleDeleteItem={()=> handleDeleteItem(item.id)}
-              handleImportantItem={()=> handleImportantItem(item.id)}
-              handleDoneItem={()=> handleDoneItem(item.id)}
+              handleImportantItem={()=> handleImportantItem(item.id, item.important)}
+              handleDoneItem={()=> handleDoneItem(item.id, item.done)}
               important={item.important}
               done={item.done}
             />

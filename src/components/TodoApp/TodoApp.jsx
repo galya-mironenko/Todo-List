@@ -81,9 +81,9 @@ export default class TodoApp extends Component{
     ]
   }
 
-  handleImportantItem = async (id) => {
+  handleImportantItem = async (id, important) => {
     const statusImportant = {
-        important: !this.state.important
+        important: !important
     }
     const requestOptions = {
       method: 'PATCH',
@@ -94,7 +94,7 @@ export default class TodoApp extends Component{
         await fetch(`http://localhost:3000/posts/${id}`, requestOptions);
         this.setState(({items}) => {
           return{
-            items: this.handleToggleProperty(items, id, 'important')
+            items: this.handleToggleProperty(items, id, 'important'),
             }
           });
       }
@@ -103,9 +103,9 @@ export default class TodoApp extends Component{
       }
   }
 
-  handleDoneItem = async (id) => {
+  handleDoneItem = async (id, done) => {
     const statusDone = {
-        done: !this.state.done
+        done: !done
     }
     const requestOptions = {
       method: 'PATCH',
