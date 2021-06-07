@@ -92,8 +92,8 @@ export default class TodoApp extends Component{
 //     });
 //   }
 
-  handleImportantItem = (id) => {
-      console.log("imp", id);
+//   handleImportantItem = (id) => {
+//       console.log("imp", id);
     //   this.setState(({items}) => {
     //     const idx = items.findIndex((el) => el.id === id);
     //     const oldItem = items[idx];
@@ -107,7 +107,7 @@ export default class TodoApp extends Component{
     //       ...items.slice(idx + 1)
     //     ]
     //   })
-  }
+//   }
 //   handleDoneItem = (id) => {
 //       console.log("done", id);
 //     this.setState(({items}) => {

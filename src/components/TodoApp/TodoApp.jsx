@@ -81,20 +81,48 @@ export default class TodoApp extends Component{
     ]
   }
 
-  handleImportantItem = (id) => {
-    this.setState(({items}) => {
-      return{
-        items: this.handleToggleProperty(items, id, 'important')
+  handleImportantItem = async (id) => {
+    const statusImportant = {
+        important: !this.state.important
+    }
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(statusImportant)
+    }
+    try{
+        await fetch(`http://localhost:3000/posts/${id}`, requestOptions);
+        this.setState(({items}) => {
+          return{
+            items: this.handleToggleProperty(items, id, 'important')
+            }
+          });
       }
-    });
+      catch(error){
+          return console.log('Could not fetch important', error);
+      }
   }
 
-  handleDoneItem = (id) => {
-    this.setState(({items}) => {
+  handleDoneItem = async (id) => {
+    const statusDone = {
+        done: !this.state.done
+    }
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(statusDone)
+    }
+    try{
+      await fetch(`http://localhost:3000/posts/${id}`, requestOptions);
+      this.setState(({items}) => {
       return{
         items: this.handleToggleProperty(items, id, 'done')
-      }
-    });
+       }
+      });
+    }
+    catch(error){
+      return console.log('Could not fetch done', error);
+    }
   }
 
   async handleDeleteItem(id){
