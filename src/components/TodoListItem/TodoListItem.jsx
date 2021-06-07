@@ -2,33 +2,32 @@ import React , { Component } from 'react';
 import './TodoListItem.css';
 import PropTypes from 'prop-types';
 export default class TodoListItem extends Component{
-  constructor(props){
-    super(props);
-    this.state={
-      important: false,
-      done: false
-    }
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state={
+  //     important: false,
+  //     done: false
+  //   }
+  // }
 
-  handleImportantItem = () => {
-    this.setState(({important}) => {
-      return {
-        important: !important
-      }
-    });
-  }
+  // handleImportantItem = () => {
+  //   this.setState(({important}) => {
+  //     return {
+  //       important: !important
+  //     }
+  //   });
+  // }
 
-  handleDoneItem = () => {
-    this.setState(({done}) => {
-      return{
-        done: !done
-      }
-    });
-  }
+  // handleDoneItem = () => {
+  //   this.setState(({done}) => {
+  //     return{
+  //       done: !done
+  //     }
+  //   });
+  // }
 
   render(){
-    const {title, handleDeleteItem} = this.props;
-    const {important, done} = this.state;
+    const {title, handleDeleteItem, handleImportantItem, handleDoneItem, important, done} = this.props;
     let classNames = "todo-item";
     if(important){
       classNames += ' important ';
@@ -38,9 +37,9 @@ export default class TodoListItem extends Component{
     }
    return(
      <li className="list-item">
-         <span className={classNames} onClick={this.handleDoneItem}>{title}</span>
+         <span className={classNames} onClick={handleDoneItem}>{title}</span>
          <div>
-           <button className="btn" onClick={this.handleImportantItem}>Important</button>
+           <button className="btn" onClick={handleImportantItem}>Important</button>
            <button className="btn" onClick={handleDeleteItem}>Delete</button>
          </div>
      </li>

@@ -40,10 +40,10 @@ export default class TodoApp extends Component{
   async handleSubmit(e){
     e.preventDefault();
     const newItem = {
-        id: this.state.id,
-        title: this.state.item,
-        done: this.state.done,
-        important: this.state.important
+      id: this.state.id,
+      title: this.state.item,
+      done: this.state.done,
+      important: this.state.important
     }
     const requestOptions = {
       method: 'POST',
@@ -53,8 +53,10 @@ export default class TodoApp extends Component{
     const updateItem = [...this.state.items, newItem];
 
     try{
-      await fetch('http://localhost:3000/posts', requestOptions);
+      const response = await fetch('http://localhost:3000/posts', requestOptions);
+      const data = await response.json();
       this.setState({
+        postId: data.id,
         items: updateItem,
         item: '',
         id: uuid(),
@@ -67,35 +69,53 @@ export default class TodoApp extends Component{
     }
   };
 
-  handleToggleProperty = (arr, id, propName) => {
-    const idx = arr.findIndex((el) => el.id === id);
-    const oldItem = arr[idx];
-    const newItem = {
-      ...oldItem,
-      [propName]: !oldItem[propName]
-    }
-    return [
-      ...arr.slice(0, idx),
-      newItem,
-      ...arr.slice(idx + 1)
-    ]
-  }
+//   handleToggleProperty(arr, id, propName){
+//     const idx = arr.findIndex((el) => el.id === id);
+//     const oldItem = arr[idx];
+//     const newItem = {
+//       ...oldItem,
+//       [propName]: !oldItem[propName]
+//     }
+//     return [
+//       ...arr.slice(0, idx),
+//       newItem,
+//       ...arr.slice(idx + 1)
+//     ]
+//   }
+
+//   handleImportantItem = (id) => {
+//     console.log("imp", id);
+//     this.setState(({items}) => {
+//       return{
+//         items: this.handleToggleProperty(items, id, 'important')
+//       }
+//     });
+//   }
 
   handleImportantItem = (id) => {
-    this.setState(({items}) => {
-      return{
-        items: this.handleToggleProperty(items, id, 'important')
-      }
-    });
+      console.log("imp", id);
+    //   this.setState(({items}) => {
+    //     const idx = items.findIndex((el) => el.id === id);
+    //     const oldItem = items[idx];
+    //     const newItem = {
+    //       ...oldItem,
+    //       important: !oldItem.important
+    //     }
+    //     return [
+    //       ...items.slice(0, idx),
+    //       newItem,
+    //       ...items.slice(idx + 1)
+    //     ]
+    //   })
   }
-
-  handleDoneItem = (id) => {
-    this.setState(({items}) => {
-      return{
-        items: this.handleToggleProperty(items, id, 'done')
-      }
-    });
-  }
+//   handleDoneItem = (id) => {
+//       console.log("done", id);
+//     this.setState(({items}) => {
+//       return{
+//         items: this.handleToggleProperty(items, id, 'done')
+//       }
+//     });
+//   }
 
   async handleDeleteItem(id){
     let url = `http://localhost:3000/posts/${id}`;

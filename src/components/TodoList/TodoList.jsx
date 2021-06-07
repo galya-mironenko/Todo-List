@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export default class TodoList extends Component{
   render(){
-    const {items, handleDeleteItem, handleClearList} = this.props;
+    const {items, handleDeleteItem, handleClearList, handleImportantItem, handleDoneItem} = this.props;
     return (
       <ul>
         {items && items.map(item => {
@@ -14,6 +14,10 @@ export default class TodoList extends Component{
               key={item.id}
               title={item.title}
               handleDeleteItem={()=> handleDeleteItem(item.id)}
+              handleImportantItem={()=> handleImportantItem(item.id)}
+              handleDoneItem={()=> handleDoneItem(item.id)}
+              important={item.important}
+              done={item.done}
             />
           );
         })
@@ -26,6 +30,8 @@ export default class TodoList extends Component{
 
 TodoList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleImportantItem: PropTypes.func,
+  handleDoneItem: PropTypes.func,
   handleDeleteItem: PropTypes.func,
   handleClearList: PropTypes.func
 };
