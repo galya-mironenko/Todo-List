@@ -10,12 +10,12 @@ export default class TodoApp extends Component{
       items: [],
       id: uuid(),
       item: '',
-      important: false
+      important: false,
+      done: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
-    // this.handleImportantItem = this.handleImportantItem(this);
     this.handleClearList = this.handleClearList.bind(this);
   }
 
@@ -60,14 +60,41 @@ export default class TodoApp extends Component{
     this.setState({
       items: updateItem,
       item: '',
+      id: uuid(),
       important: false,
-      id: uuid()
+      done: false
     });
   };
 
-//   handleImportantItem = () => {
-//     this.setState({important: true});
-//   }
+  handleToggleProperty(arr, id, propName){
+    const idx = arr.findIndex((el) => el.id === id);
+    const oldItem = arr[idx];
+    const newItem = {
+      ...oldItem,
+      [propName]: !oldItem[propName]
+    }
+    return [
+      ...arr.slice(0, idx),
+      newItem,
+      ...arr.slice(idx + 1)
+    ]
+  }
+
+  handleDoneItem = (id) => {
+    this.setState(({items}) => {
+      return{
+        items: this.handleToggleProperty(items, id, 'important')
+      }
+    });
+  }
+
+  handleDoneItem = (id) => {
+    this.setState(({items}) => {
+      return{
+        items: this.handleToggleProperty(items, id, 'done')
+      }
+    });
+  }
 
   async handleDeleteItem(id){
     let url = `http://localhost:3000/posts/${id}`;
@@ -118,7 +145,6 @@ export default class TodoApp extends Component{
         <TodoList
           items={this.state.items}
           handleDeleteItem={this.handleDeleteItem}
-    //   handleImportantItem={this.handleImportantItem}
           handleClearList={this.handleClearList}
         />
       </div>
