@@ -41,7 +41,9 @@ export default class TodoApp extends Component{
     e.preventDefault();
     const newItem = {
       id: this.state.id,
-      title: this.state.item
+      title: this.state.item,
+      done: this.state.done,
+      important: this.state.important
     }
     const requestOptions = {
       method: 'POST',
@@ -80,7 +82,7 @@ export default class TodoApp extends Component{
     ]
   }
 
-  handleDoneItem = (id) => {
+  handleImportantItem = (id) => {
     this.setState(({items}) => {
       return{
         items: this.handleToggleProperty(items, id, 'important')
