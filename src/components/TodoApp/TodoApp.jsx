@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import TodoForm from '../TodoForm/TodoForm';
 import TodoList from '../TodoList/TodoList';
+import FilterList from '../FilterList';
 import './TodoApp.css';
 import {v1 as uuid} from "uuid";
+
 export default class TodoApp extends Component{
   constructor(props){
     super(props);
@@ -11,7 +13,9 @@ export default class TodoApp extends Component{
       id: uuid(),
       item: '',
       important: false,
-      done: false
+      done: false,
+      filter: 'all'
+
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -162,9 +166,31 @@ export default class TodoApp extends Component{
     })
   }
 
+  updateTodoFilter = (s) => {
+    this.setState({
+      filter: s
+    })
+  }
+
   render(){
+    let items = [];
+      if(this.state.filter === 'all'){
+        items = this.state.items;
+      }else if (this.state.filter === 'active'){
+        items = this.state.items.filter(item => !item.done);
+      }else if (this.state.filter === 'done'){
+        items = this.state.items.filter(item => item.done);
+      }else if (this.state.filter === 'important'){
+        items = this.state.items.filter(item => item.important);
+      }
+
     return (
       <div>
+        <div className='searchFilter'>
+          <FilterList
+            updateTodoFilter= {this.updateTodoFilter}
+          />
+        </div>
         <TodoForm
           className="todoApp"
           item={this.state.item}
@@ -172,7 +198,7 @@ export default class TodoApp extends Component{
           handleSubmit={this.handleSubmit}
         />
         <TodoList
-          items={this.state.items}
+          items={items}
           handleDeleteItem={this.handleDeleteItem}
           handleClearList={this.handleClearList}
           handleImportantItem={this.handleImportantItem}

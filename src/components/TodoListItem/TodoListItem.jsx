@@ -3,7 +3,7 @@ import './TodoListItem.css';
 import PropTypes from 'prop-types';
 export default class TodoListItem extends Component{
   render(){
-    const {title, handleDeleteItem, handleImportantItem, handleDoneItem, important, done} = this.props;
+    const {title, important, done, handleDeleteItem, handleImportantItem, handleDoneItem} = this.props;
     let classNames = "todo-item";
     if(important){
       classNames += ' important ';
@@ -25,5 +25,9 @@ export default class TodoListItem extends Component{
 
 TodoListItem.propTypes = {
   title: PropTypes.string,
-  handleDeleteItem: PropTypes.func.isRequired
+  important: PropTypes.bool,
+  done: PropTypes.bool,
+  handleDeleteItem: PropTypes.func.isRequired,
+  handleImportantItem: PropTypes.func,
+  handleDoneItem: PropTypes.func
 }

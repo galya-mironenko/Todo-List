@@ -2,3 +2,7 @@
     color: gray;
     font-size: 20px;
 }
+.searchFilter{
+    display: flex;
+    margin-bottom: 15px;
+  }

@@ -1,0 +1,12 @@
+.filterList{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 440px;
+    color: #008B8B;
+    font-size: 24px;
+}
+.filterList button{
+    width: 80px;
+    padding: 4px;
+}
