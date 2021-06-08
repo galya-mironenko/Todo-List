@@ -4,9 +4,6 @@ import './TodoList.css';
 import PropTypes from 'prop-types';
 
 export default class TodoList extends Component{
-  constructor(props){
-    super(props);
-  }
   render(){
     const {items, handleDeleteItem, handleClearList, handleImportantItem, handleDoneItem} = this.props;
     return (
