@@ -4,6 +4,7 @@ import TodoApp from '../TodoApp';
 import './App.css';
 
 class App extends React.Component{
+  // const baseUrl = 'http://localhost:3000/posts/';
   render(){
     return (
       <div className="app">
