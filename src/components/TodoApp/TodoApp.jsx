@@ -25,7 +25,7 @@ export default class TodoApp extends Component{
 
   async componentDidMount(){
     try{
-      const res = await fetch('http://localhost:3000/posts');
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/posts`);
       const data = await res.json();
       this.setState({items: data});
     }
@@ -57,7 +57,7 @@ export default class TodoApp extends Component{
     const updateItem = [...this.state.items, newItem];
 
     try{
-      await fetch('http://localhost:3000/posts', requestOptions);
+      await fetch(`${process.env.REACT_APP_API_URL}/posts`, requestOptions);
       this.setState({
         items: updateItem,
         item: '',
@@ -95,7 +95,7 @@ export default class TodoApp extends Component{
       body: JSON.stringify(statusImportant)
     }
     try{
-        await fetch(`http://localhost:3000/posts/${id}`, requestOptions);
+        await fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`, requestOptions);
         this.setState(({items}) => {
           return{
             items: this.handleToggleProperty(items, id, 'important'),
@@ -117,7 +117,7 @@ export default class TodoApp extends Component{
       body: JSON.stringify(statusDone)
     }
     try{
-      await fetch(`http://localhost:3000/posts/${id}`, requestOptions);
+      await fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`, requestOptions);
       this.setState(({items}) => {
       return{
         items: this.handleToggleProperty(items, id, 'done')
@@ -130,7 +130,7 @@ export default class TodoApp extends Component{
   }
 
   async handleDeleteItem(id){
-    let url = `http://localhost:3000/posts/${id}`;
+    let url = `${process.env.REACT_APP_API_URL}/posts/${id}`;
     try{
       await fetch(url, {method: 'DELETE'});
     }
@@ -153,7 +153,7 @@ export default class TodoApp extends Component{
   async handleClearList(ids){
     try{
       ids.forEach(element => {
-        let url = `http://localhost:3000/posts/${element.id}`;
+        let url = `${process.env.REACT_APP_API_URL}/posts/${element.id}`;
         fetch(url, {method: 'DELETE'});
       });
     }

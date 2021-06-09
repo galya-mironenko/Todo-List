@@ -6,7 +6,17 @@
     color: #008B8B;
     font-size: 24px;
 }
-.filterList button{
+.filterList .button a{
     width: 80px;
+    height: 40px;
     padding: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #000;
+    text-decoration:none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.filterList .button a:hover{
+    color: #008B8B;
 }

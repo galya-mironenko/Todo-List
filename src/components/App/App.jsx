@@ -13,6 +13,10 @@ class App extends React.Component{
             <Route exact path='/' component={AppHeader} />
             <Switch>
               <Route exact path='/' component={TodoApp} />
+              <Route exact path='/all' component={TodoApp} />
+              <Route exact path='/active' component={TodoApp} />
+              <Route exact path='/done' component={TodoApp} />
+              <Route exact path='/important' component={TodoApp} />
               <Route component={PageNotFound} />
             </Switch>
           </div>
