@@ -4,6 +4,7 @@ import TodoList from '../TodoList/TodoList';
 import FilterList from '../FilterList';
 import './TodoApp.css';
 import {v1 as uuid} from "uuid";
+const axios = require('axios');
 
 export default class TodoApp extends Component{
   constructor(props){
@@ -22,17 +23,15 @@ export default class TodoApp extends Component{
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
     this.handleClearList = this.handleClearList.bind(this);
   }
-
   async componentDidMount(){
-    try{
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/posts`);
-      const data = await res.json();
-      this.setState({items: data});
-    }
-    catch(error){
-      return console.log('Could not fetch', error);
-    }
-   }
+    await axios.get(`${process.env.REACT_APP_API_URL}/posts`)
+      .then(response =>
+        this.setState({items: response.data})
+      )
+      .catch(error => {
+        console.error('There was an error!', error);
+    });
+  }
 
   handleChange(e){
     const target = e.target;
@@ -43,33 +42,31 @@ export default class TodoApp extends Component{
 
   async handleSubmit(e){
     e.preventDefault();
-    const newItem = {
+    let newItem = {
         id: this.state.id,
         title: this.state.item,
         done: this.state.done,
         important: this.state.important
     }
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(newItem)
-    }
     const updateItem = [...this.state.items, newItem];
 
-    try{
-      await fetch(`${process.env.REACT_APP_API_URL}/posts`, requestOptions);
+    let headers =  {
+      'Content-Type': 'application/json',
+    }
+  await axios.post(`${process.env.REACT_APP_API_URL}/posts `, JSON.stringify(newItem), {headers})
+    .then(
       this.setState({
-        items: updateItem,
-        item: '',
-        id: uuid(),
-        important: false,
-        done: false
-      });
-    }
-    catch(error){
-        return console.log('Could not fetch', error);
-    }
-  };
+          items: updateItem,
+          item: '',
+          id: uuid(),
+          important: false,
+          done: false
+      })
+    )
+    .catch((error) => {
+      return console.log('Could not fetch done', error);
+    })
+  }
 
   handleToggleProperty = (arr, id, propName) => {
     const idx = arr.findIndex((el) => el.id === id);
@@ -86,83 +83,83 @@ export default class TodoApp extends Component{
   }
 
   handleImportantItem = async (id, important) => {
-    const statusImportant = {
-        important: !important
+    const statusDone = {
+      important: !important
     }
-    const requestOptions = {
-      method: 'PATCH',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(statusImportant)
+
+    const options = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-    try{
-        await fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`, requestOptions);
-        this.setState(({items}) => {
-          return{
-            items: this.handleToggleProperty(items, id, 'important'),
-            }
-          });
-      }
-      catch(error){
-          return console.log('Could not fetch important', error);
-      }
+    await axios.patch(`${process.env.REACT_APP_API_URL}/posts/${id}`, statusDone, {options})
+    .then(
+      this.setState(({items}) => {
+        return{
+          items: this.handleToggleProperty(items, id, 'important'),
+          }
+        })
+    )
+    .catch((error) => {
+      return console.log('Could not fetch done', error);
+    })
   }
 
   handleDoneItem = async (id, done) => {
     const statusDone = {
-        done: !done
-    }
-    const requestOptions = {
-      method: 'PATCH',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(statusDone)
-    }
-    try{
-      await fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`, requestOptions);
-      this.setState(({items}) => {
-      return{
-        items: this.handleToggleProperty(items, id, 'done')
-       }
-      });
-    }
-    catch(error){
-      return console.log('Could not fetch done', error);
-    }
-  }
-
-  async handleDeleteItem(id){
-    let url = `${process.env.REACT_APP_API_URL}/posts/${id}`;
-    try{
-      await fetch(url, {method: 'DELETE'});
-    }
-    catch(error){
-      return console.log('You have error, you cant delete item', error);
+      done: !done
     }
 
-    this.setState(({items}) => {
-      const idx = items.findIndex((el) => el.id === id);
-      const filteredItems = [
-        ...items.slice(0, idx),
-        ...items.slice(idx + 1)
-      ];
-      return{
-        items: filteredItems
+    const options = {
+      headers: {
+        'Content-Type': 'application/json'
       }
+    }
+
+    await axios.patch(`${process.env.REACT_APP_API_URL}/posts/${id}`, statusDone, {options})
+    .then(
+      this.setState(({items}) => {
+        return{
+          items: this.handleToggleProperty(items, id, 'done'),
+          }
+        })
+    )
+    .catch((error) => {
+      return console.log('Could not fetch done', error);
     })
   }
 
-  async handleClearList(ids){
-    try{
-      ids.forEach(element => {
-        let url = `${process.env.REACT_APP_API_URL}/posts/${element.id}`;
-        fetch(url, {method: 'DELETE'});
-      });
-    }
-    catch(error){
-      return console.log('You have error, you cant delete item', error);
-    }
 
-    this.setState({
-      items: []
+  async handleDeleteItem (id){
+    await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${id}`)
+    .then(
+        this.setState(({items}) => {
+        const idx = items.findIndex((el) => el.id === id);
+        const filteredItems = [
+          ...items.slice(0, idx),
+          ...items.slice(idx + 1)
+        ];
+        return{
+          items: filteredItems
+        }
+      })
+    )
+    .catch((error) => {
+      return console.log('You have error, you cant delete item', error);
+    })
+  }
+
+  handleClearList(ids){
+    ids.forEach(element => {
+      axios.delete(`${process.env.REACT_APP_API_URL}/posts/${element.id}`)
+      .then(
+        this.setState({
+          items: []
+        })
+      )
+      .catch((error) => {
+        return console.log('You have error, you cant delete all todo-list', error)
+      })
     })
   }
 

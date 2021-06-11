@@ -10,7 +10,7 @@ class App extends React.Component{
       <Router>
         <div className="app">
           <div className="app-wrap">
-            <Route exact path='/' component={AppHeader} />
+            <Route path='/' component={AppHeader} />
             <Switch>
               <Route exact path='/' component={TodoApp} />
               <Route exact path='/all' component={TodoApp} />
